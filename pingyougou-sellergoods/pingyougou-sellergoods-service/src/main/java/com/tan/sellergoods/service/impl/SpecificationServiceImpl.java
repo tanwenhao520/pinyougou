@@ -47,7 +47,7 @@ public class SpecificationServiceImpl extends BaseServiceImpl<TbSpecification> i
 
         specificationMapper.insertSelective(specification.getSpecification());
 
-        if(specification.getSpecificationOptionList() != null &&specification.getSpecificationOptionList().size() >0){
+        if(specification.getSpecificationOptionList() != null && specification.getSpecificationOptionList().size() >0){
             for (TbSpecificationOption tbSpecificationOption : specification.getSpecificationOptionList()) {
                 tbSpecificationOption.setSpecId(specification.getSpecification().getId());
                 specificationOptionMapper.insertSelective(tbSpecificationOption);

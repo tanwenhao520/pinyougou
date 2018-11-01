@@ -42,4 +42,5 @@ pinyougou.controller("brandController",function ($scope,$controller,brandService
             $scope.entity = response
         })
     }
+
 })

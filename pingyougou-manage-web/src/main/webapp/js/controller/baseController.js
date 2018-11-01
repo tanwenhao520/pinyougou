@@ -74,4 +74,7 @@ pinyougou.controller("baseController",function ($scope) {
             }
         }
     }
+
+
+
 })

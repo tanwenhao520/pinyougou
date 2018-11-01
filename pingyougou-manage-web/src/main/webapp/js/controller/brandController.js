@@ -43,4 +43,26 @@ pinyougou.controller("brandController",function ($scope,$controller,brandService
         })
     }
 
+    /**
+     * 批量删除。接收获取id数组
+     */
+    $scope.delete = function () {
+        if($scope.selectIds.length < 1 ){
+            alert("请选择要删除的品牌!");
+            return;
+        }else{
+            if(confirm("确定要删除选中的品牌吗?")){
+                brandService.delete($scope.selectIds).success(function (response) {
+                    if(response.success){
+                        alert(response.message);
+                        $scope.reloadList();
+                        $scope.selectIds = [];
+                    }else{
+                        alert(response.message);
+                    }
+                })
+            }
+        }
+    }
+
 })

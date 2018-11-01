@@ -13,13 +13,14 @@
     <link rel="stylesheet" href="../css/style.css">
 	<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../plugins/angularjs/angular.min.js"></script>
+	<script src="../js/angular.min.js"></script>
     <script src="../plugins/angularjs/pagination.js"></script>
     <link rel="stylesheet" href="../plugins/angularjs/pagination.css">
 	<script src="../js/base_pageination.js"></script>
+	<script src="../js/controller/baseController.js"></script>
     <script src="../js/service/specificationService.js"></script>
-    <script src="../js/controller/baseController.js"></script>
     <script src="../js/controller/specificationController.js"></script>
+
 
 
 </head>
@@ -52,6 +53,7 @@
                             </div>
                             <!--工具栏/-->
 			                  <!--数据列表-->
+							{{$scope.selectIds}}
 			                  <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
 			                      <thead>
 			                          <tr>

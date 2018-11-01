@@ -17,7 +17,7 @@ pinyougou.service("brandService",function ($http) {
         return $http.get("../brand/findOne.do?id="+id);
     }
     this.delete = function (selectIds) {
-        return $http.get("../brand/delete.do?ids="+$scope.selectIds);
+        return $http.get("../brand/delete.do?ids="+selectIds);
     }
 
     this.search = function (page,rows,searchEntity) {

@@ -8,6 +8,7 @@ package com.tan.controller;
         import org.springframework.web.bind.annotation.*;
 
         import java.util.List;
+        import java.util.Map;
 
 @RequestMapping("/brand")
 @RestController
@@ -81,6 +82,12 @@ public class BrandController {
                              @RequestParam(value = "rows",defaultValue = "10")Integer rows,
                              @RequestBody TbBrand tbBrand){
        return brandService.search(page,rows,tbBrand);
+    }
+
+    @GetMapping("/selectOptionList")
+    public List<Map<String,Object>> selectOptionList(){
+
+        return  brandService.selectOptionList();
     }
 
 }

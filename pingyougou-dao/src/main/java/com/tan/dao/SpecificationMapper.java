@@ -3,6 +3,9 @@ package com.tan.dao;
 import com.tan.pojo.TbSpecification;
 import tk.mybatis.mapper.common.Mapper;
 
-public interface SpecificationMapper extends Mapper<TbSpecification> {
+import java.util.List;
+import java.util.Map;
 
+public interface SpecificationMapper extends Mapper<TbSpecification> {
+    List<Map<String,Object>> selectOptionList();
 }

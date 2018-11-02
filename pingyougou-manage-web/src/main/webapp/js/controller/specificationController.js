@@ -40,12 +40,12 @@ pinyougou.controller("specificationController", function ($scope, $controller, s
     };
 
     $scope.delete = function () {
-        if($scope.selectedIds.length < 1){
+        if($scope.selectIds.length < 1){
             alert("请先选择要删除的记录");
             return;
         }
         if(confirm("确定要删除已选择的记录吗")){
-            specificationService.delete($scope.selectedIds).success(function (response) {
+            specificationService.delete($scope.selectIds).success(function (response) {
                 if(response.success){
                     $scope.reloadList();
                     $scope.selectedIds = [];

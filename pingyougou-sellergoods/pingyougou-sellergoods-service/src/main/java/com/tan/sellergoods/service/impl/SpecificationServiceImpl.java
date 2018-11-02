@@ -15,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @Service(interfaceClass = SpecificationService.class)
 public class SpecificationServiceImpl extends BaseServiceImpl<TbSpecification> implements SpecificationService {
@@ -58,6 +60,49 @@ public class SpecificationServiceImpl extends BaseServiceImpl<TbSpecification> i
 
     @Override
     public void deleteByIds(Long[] ids) {
+        deleteById(ids);
 
+        Example example = new Example(TbSpecificationOption.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andIn("specId", Arrays.asList(ids));
+        specificationOptionMapper.deleteByExample(example);
+    }
+
+    @Override
+    public Specification findOne(Long id) {
+
+        Specification specification = new Specification();
+
+        specification.setSpecification(specificationMapper.selectByPrimaryKey(id));
+
+        TbSpecificationOption param = new TbSpecificationOption();
+        param.setSpecId(id);
+
+        List<TbSpecificationOption> select = specificationOptionMapper.select(param);
+        System.out.println(select);
+
+        specification.setSpecificationOptionList(select);
+        return specification;
+    }
+
+    @Override
+    public void update(Specification specification) {
+        specificationMapper.updateByPrimaryKeySelective(specification.getSpecification());
+
+        TbSpecificationOption tfo = new TbSpecificationOption();
+        tfo.setSpecId(specification.getSpecification().getId());
+        specificationOptionMapper.delete(tfo);
+
+        if(specification.getSpecificationOptionList() != null && specification.getSpecificationOptionList().size()>0){
+            for (TbSpecificationOption tbSpecificationOption : specification.getSpecificationOptionList()) {
+                tbSpecificationOption.setSpecId(specification.getSpecification().getId());
+                specificationOptionMapper.insertSelective(tbSpecificationOption);
+            }
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> selectOptionList() {
+        return specificationMapper.selectOptionList();
     }
 }

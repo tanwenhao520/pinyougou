@@ -1,0 +1,5 @@
+com\tan\controller\UploadController.class
+com\tan\serivce\impl\UserDetaisServiceImpl.class
+com\tan\controller\LoginController.class
+com\tan\controller\SellerController.class
+com\tan\controller\GoodsController.class

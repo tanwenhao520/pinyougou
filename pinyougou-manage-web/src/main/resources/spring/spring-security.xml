@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/security
+http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <http pattern="/login.html" security="none"></http>
+    <http pattern="/css/**" security="none"></http>
+    <http pattern="/plugins/**" security="none"></http>
+    <http pattern="/js/**" security="none"></http>
+    <http pattern="/img/**" security="none"></http>
+
+    <http use-expressions="false">
+        <!--拥有USER的角色可以任意访问-->
+        <intercept-url pattern="/**" access="ROLE_USER"></intercept-url>
+        <form-login login-page="/login.html" default-target-url="/admin/index.html"
+                    authentication-failure-url="/login.html" always-use-default-target="true"/>
+        <!--禁止跨站访问-->
+        <csrf disabled="true"></csrf>
+        <!--如果使用了iframe等框架，希望跳转也是在框架内跳转的话-->
+        <headers>
+            <frame-options policy="SAMEORIGIN"/>
+        </headers>
+        <logout/>
+    </http>
+
+    <authentication-manager>
+        <authentication-provider>
+            <user-service>
+                <user name="admin" authorities="ROLE_USER" password="123456"></user>
+                <user name="itcase" authorities="ROLE_USER" password="123456"></user>
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+</beans:beans>

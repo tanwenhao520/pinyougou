@@ -1,0 +1,10 @@
+com\tan\dao\ItemMapper.class
+com\tan\dao\GoodsMapper.class
+com\tan\dao\SpecificationMapper.class
+com\tan\dao\ItemCatMapper.class
+com\tan\dao\SellerMapper.class
+com\tan\dao\BrandMapper.class
+com\tan\dao\GoodsDescMapper.class
+com\tan\dao\SpecificationOptionMapper.class
+com\tan\dao\TypeTemplateMapper.class
+com\tan\service\impl\BaseServiceImpl.class

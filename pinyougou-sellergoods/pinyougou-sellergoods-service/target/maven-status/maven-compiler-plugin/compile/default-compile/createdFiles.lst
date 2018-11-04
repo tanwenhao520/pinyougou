@@ -1,0 +1,10 @@
+com\tan\sellergoods\service\impl\SpecificationOptionServiceImpl.class
+com\tan\sellergoods\service\impl\ItemServiceImpl.class
+com\tan\sellergoods\service\impl\ItemCatServiceImpl.class
+com\tan\sellergoods\service\impl\UserDetailsServiceImpl.class
+com\tan\sellergoods\service\impl\SpecificationServiceImpl.class
+com\tan\sellergoods\service\impl\TypeTemplateServiceImpl.class
+com\tan\sellergoods\service\impl\SellerServiceImpl.class
+com\tan\sellergoods\service\impl\GoodsServiceImpl.class
+com\tan\sellergoods\service\impl\BrandServiceImpl.class
+com\tan\sellergoods\service\impl\GoodsDescServiceImpl.class

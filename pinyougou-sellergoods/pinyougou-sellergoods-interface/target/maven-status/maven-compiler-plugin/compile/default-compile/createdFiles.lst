@@ -1,0 +1,9 @@
+com\tan\sellergoods\service\SpecificationOptionService.class
+com\tan\sellergoods\service\SellerService.class
+com\tan\sellergoods\service\ItemService.class
+com\tan\sellergoods\service\GoodsDescServive.class
+com\tan\sellergoods\service\TypeTemplateService.class
+com\tan\sellergoods\service\SpecificationService.class
+com\tan\sellergoods\service\BrandService.class
+com\tan\sellergoods\service\ItemCatService.class
+com\tan\sellergoods\service\GoodsService.class

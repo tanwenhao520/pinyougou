@@ -32,4 +32,8 @@ pinyougou.service("typeTemplateService",function ($http) {
     this.selectOptionList = function () {
         return $http.get("../specification/selectOptionList.do");
     }
+
+    this.findSpecList = function (id) {
+        return $http.get("../typeTemplate/findSpecList.do?id="+id);
+    }
 });

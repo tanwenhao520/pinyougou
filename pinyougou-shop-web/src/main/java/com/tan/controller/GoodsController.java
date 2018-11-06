@@ -34,7 +34,7 @@ public class GoodsController {
         try {
             goods.getGoods().setSellerId(SecurityContextHolder.getContext().getAuthentication().getName());
             goods.getGoods().setAuditStatus("0");
-            goodsService.add(goods);
+            goodsService.addGoods(goods);
             return Result.ok("增加成功");
         } catch (Exception e) {
             e.printStackTrace();
@@ -81,5 +81,6 @@ public class GoodsController {
                                @RequestParam(value = "rows", defaultValue = "10")Integer rows) {
         return goodsService.search(page, rows, goods);
     }
+
 
 }

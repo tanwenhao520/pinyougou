@@ -66,4 +66,15 @@ pinyougou.controller("baseController",function ($scope) {
         }
         return str
     }
+
+
+    // 在一个集合中根据某个对象的属性值找该对象并返回
+    $scope.findObjectByKeyAndValue = function (list, keyName, keyValue) {
+        for (var i = 0; i < list.length; i++) {
+            if(list[i][keyName]==keyValue) {
+                return list[i];
+            }
+        }
+        return null;
+    };
 })

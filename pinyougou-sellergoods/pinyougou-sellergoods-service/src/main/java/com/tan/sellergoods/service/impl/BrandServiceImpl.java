@@ -32,6 +32,13 @@ public class BrandServiceImpl extends BaseServiceImpl<TbBrand> implements BrandS
         return  brandMapper.selectAll();
     }
 
+    /**
+     * 条件查询并分页
+     * @param page
+     * @param rows
+     * @param tbBrand
+     * @return
+     */
     @Override
     public PageResult search(Integer page, Integer rows, TbBrand tbBrand) {
         PageHelper.startPage(page,rows);

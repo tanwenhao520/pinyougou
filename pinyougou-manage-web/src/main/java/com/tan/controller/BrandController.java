@@ -22,12 +22,12 @@ public class BrandController {
     public List<TbBrand> testPage(@RequestParam(value = "page",defaultValue = "1")Integer page,
                                   @RequestParam(value = "rows",defaultValue = "10") Integer rows){
         return (List<TbBrand>) brandService.findPage(page,rows).getRows();
-    }
+    }*/
     @GetMapping("/findPage")
     public PageResult findPage(@RequestParam(value = "page",defaultValue = "1")Integer page,
                                @RequestParam(value = "rows",defaultValue = "10") Integer rows){
         return brandService.findPage(page,rows);
-    }*/
+    }
     @GetMapping("/findAll")
     public List<TbBrand> findAll(){
         return brandService.findAll();
@@ -48,13 +48,17 @@ public class BrandController {
         }
         return  Result.fail("增加失败！");
     }
-
+    /*
+    * 点击修改时需要回显的数据
+    * */
     @GetMapping("/findOne")
     public TbBrand findOne(Long id){
         System.out.println(brandService.findOne(id));
        return brandService.findOne(id);
 }
-
+    /*
+    * 点击修改后并更新数据库内容，返回一个成功与否的实体类
+    * */
     @PostMapping("/update")
     public Result update(@RequestBody TbBrand tbBrand){
         try {
@@ -65,7 +69,9 @@ public class BrandController {
         }
         return Result.fail("修改失败！");
     }
-
+    /*
+    * 批量删除
+    * */
     @GetMapping("/delete")
     public Result delete(Long[] ids){
         try {

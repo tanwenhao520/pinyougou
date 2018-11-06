@@ -56,6 +56,10 @@ public  abstract class BaseServiceImpl<T> implements BaseService<T> {
         mapper.updateByPrimaryKeySelective(t);
     }
 
+    /**
+     * 批量删除
+     * @param ids
+     */
     @Override
     public void deleteById(Serializable[] ids) {
         if(ids != null && ids.length >0){

@@ -5,11 +5,16 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://code.alibabatech.com/schema/dubbo
-       http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+       http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+       ">
+
+
 
     <dubbo:protocol name="dubbo" port="20880"/>
     <dubbo:application name="pingyougou-sellergoods-service"/>
     <dubbo:registry address="zookeeper://192.168.12.168:2181"/>
     <dubbo:annotation package="com.tan.sellergoods.service.impl"/>
+
+
 
 </beans>

@@ -3,5 +3,6 @@ com\tan\controller\SpecificationOptionController.class
 com\tan\controller\ItemCatController.class
 com\tan\controller\LoginController.class
 com\tan\controller\SellerController.class
+com\tan\controller\GoodsController.class
 com\tan\controller\SpecificationController.class
 com\tan\controller\TypeTemplateController.class

@@ -12,12 +12,13 @@ import com.tan.sellergoods.service.TypeTemplateService;
 import com.tan.service.impl.BaseServiceImpl;
 import com.tan.vo.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 import java.util.Map;
-
+@Transactional
 @Service(interfaceClass = TypeTemplateService.class)
 public class TypeTemplateServiceImpl extends BaseServiceImpl<TbTypeTemplate> implements TypeTemplateService {
 

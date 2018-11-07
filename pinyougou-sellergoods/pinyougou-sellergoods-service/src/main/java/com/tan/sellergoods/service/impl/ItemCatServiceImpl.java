@@ -9,10 +9,11 @@ import com.tan.sellergoods.service.ItemCatService;
 import com.tan.service.impl.BaseServiceImpl;
 import com.tan.vo.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
-
+@Transactional
 @Service(interfaceClass = ItemCatService.class)
 public class ItemCatServiceImpl extends BaseServiceImpl<TbItemCat> implements ItemCatService {
 

@@ -71,15 +71,15 @@ pinyougou.controller("goodsController", function ($scope, $controller, $location
     };
 
     $scope.delete = function () {
-        if($scope.selectedIds.length < 1){
+        if($scope.selectIds.length < 1){
             alert("请先选择要删除的记录");
             return;
         }
         if(confirm("确定要删除已选择的记录吗")){
-            goodsService.delete($scope.selectedIds).success(function (response) {
+            goodsService.delete($scope.selectIds).success(function (response) {
                 if(response.success){
                     $scope.reloadList();
-                    $scope.selectedIds = [];
+                    $scope.selectIds = [];
                 } else {
                     alert(response.message);
                 }
@@ -257,20 +257,25 @@ pinyougou.controller("goodsController", function ($scope, $controller, $location
 
     //修改商品的状态
     $scope.updateStatus = function (status) {
-        if($scope.selectedIds.length < 1) {
+        if($scope.selectIds.length < 1) {
             alert("请先选择商品");
             return;
         }
         if(confirm("确定要更新选中的商品状态吗？")){
-            goodsService.updateStatus($scope.selectedIds, status).success(function (response) {
+            goodsService.updateStatus($scope.selectIds, status).success(function (response) {
                 if(response.success) {
                     //刷新列表并清空选中的那些商品
+                    alert(response.message);
                     $scope.reloadList();
-                    $scope.selectedIds = [];
+                    $scope.selectIds = [];
                 } else {
                     alert(response.message);
                 }
             });
         }
     };
+    
+    $scope.newgoods = function () {
+        window.location.href = "./goods_edit.html";
+    }
 });

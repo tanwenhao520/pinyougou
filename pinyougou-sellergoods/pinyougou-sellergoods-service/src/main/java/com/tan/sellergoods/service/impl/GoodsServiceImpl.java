@@ -12,13 +12,12 @@ import com.tan.service.impl.BaseServiceImpl;
 import com.tan.vo.Goods;
 import com.tan.vo.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import java.util.*;
+@Transactional
 @Service(interfaceClass = GoodsService.class)
 public class GoodsServiceImpl extends BaseServiceImpl<TbGoods> implements GoodsService {
 
@@ -46,20 +45,25 @@ public class GoodsServiceImpl extends BaseServiceImpl<TbGoods> implements GoodsS
 
         Example example = new Example(TbGoods.class);
         Example.Criteria criteria = example.createCriteria();
-        /*if(!StringUtils.isEmpty(goods.get***())){
-            criteria.andLike("***", "%" + goods.get***() + "%");
-        }*/
 
+            criteria.andNotEqualTo("isDelete","1");
+
+        if(!StringUtils.isEmpty(goods.getSellerId())){
+            criteria.andEqualTo("sellerId", goods.getSellerId() );
+        }
+        if(!StringUtils.isEmpty(goods.getAuditStatus())){
+            criteria.andEqualTo("auditStatus", goods.getAuditStatus() );
+        }
+        if(!StringUtils.isEmpty(goods.getGoodsName())){
+            criteria.andLike("goodsName", "%"+goods.getGoodsName()+"%" );
+        }
         List<TbGoods> list = goodsMapper.selectByExample(example);
         PageInfo<TbGoods> pageInfo = new PageInfo<>(list);
 
         return new PageResult(pageInfo.getTotal(), pageInfo.getList());
     }
 
-    @Override
-    public void deleteByIds(String[] ids) {
 
-    }
 
     @Override
     public void add(Goods goods) {
@@ -80,6 +84,82 @@ public class GoodsServiceImpl extends BaseServiceImpl<TbGoods> implements GoodsS
 
         }
 
+    @Override
+    public void updateStatus(Long[] ids,String status) {
+        if(ids.length > 0 ){
+
+            TbGoods tg = new TbGoods();
+            tg.setAuditStatus(status);
+
+            Example example = new Example(TbGoods.class);
+
+            example.createCriteria().andIn("id", Arrays.asList(ids));
+
+            goodsMapper.updateByExampleSelective(tg,example);
+
+            if("2".equals(status)){
+                TbItem tbItem = new TbItem();
+                tbItem.setStatus("1");
+                Example example1 = new Example(TbItem.class);
+                example1.createCriteria().andIn("goodsId",Arrays.asList(ids));
+                itemMapper.updateByExampleSelective(tbItem,example1);
+            }
+        }
+
+    }
+
+    @Override
+    public Goods findGoodsById(Long id) {
+
+        Goods goods = new Goods();
+
+        TbGoods tbGoods = goodsMapper.selectByPrimaryKey(id);
+
+        goods.setGoods(tbGoods);
+
+        TbGoodsDesc tbGoodsDesc = goodsDescMapper.selectByPrimaryKey(goods.getGoods().getId());
+
+        goods.setGoodsDesc(tbGoodsDesc);
+
+        Example example = new Example(TbItem.class);
+        example.createCriteria().andEqualTo("goodsId",goods.getGoodsDesc().getGoodsId());
+        List<TbItem> tbItems = itemMapper.selectByExample(example);
+
+        goods.setItemList(tbItems);
+
+        return goods;
+    }
+
+    @Override
+    public void update(Goods goods) {
+
+        goods.getGoods().setAuditStatus("0");
+
+        goodsMapper.updateByPrimaryKeySelective(goods.getGoods());
+
+        goodsDescMapper.updateByPrimaryKeySelective(goods.getGoodsDesc());
+
+        TbItem tb = new TbItem();
+
+        tb.setGoodsId(goods.getGoodsDesc().getGoodsId());
+
+        itemMapper.delete(tb);
+
+        saveItem(goods);
+    }
+
+    @Override
+    public void deleteGoodsByIds(String[] ids) {
+        TbGoods tbGoods = new TbGoods();
+        tbGoods.setIsDelete("1");
+
+        Example example = new Example(TbGoods.class);
+        example.createCriteria().andIn("id",Arrays.asList(ids));
+        goodsMapper.updateByExampleSelective(tbGoods,example);
+
+
+    }
+
     private void  saveItem(Goods goods){
         if("1".equals(goods.getGoods().getIsEnableSpec())){
             for (TbItem tbItem : goods.getItemList()) {
@@ -95,7 +175,6 @@ public class GoodsServiceImpl extends BaseServiceImpl<TbGoods> implements GoodsS
                 tbItem.setTitle(title);
 
                 setItemValue(tbItem,goods);
-
 
                 itemMapper.insert(tbItem);
              }

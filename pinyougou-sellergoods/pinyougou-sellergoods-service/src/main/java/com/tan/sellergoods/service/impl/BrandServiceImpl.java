@@ -9,12 +9,13 @@ import com.tan.sellergoods.service.BrandService;
 import com.tan.service.impl.BaseServiceImpl;
 import com.tan.vo.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 import java.util.Map;
-
+@Transactional
 @Service(interfaceClass = BrandService.class)
 public class BrandServiceImpl extends BaseServiceImpl<TbBrand> implements BrandService{
 

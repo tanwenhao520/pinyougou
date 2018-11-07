@@ -26,6 +26,7 @@ public class GoodsController {
     @GetMapping("/findPage")
     public PageResult findPage(@RequestParam(value = "page", defaultValue = "1")Integer page,
                                @RequestParam(value = "rows", defaultValue = "10")Integer rows) {
+
         return goodsService.findPage(page, rows);
     }
 
@@ -43,12 +44,12 @@ public class GoodsController {
     }
 
     @GetMapping("/findOne")
-    public TbGoods findOne(String id) {
-        return goodsService.findOne(id);
+    public Goods findOne(Long id) {
+        return goodsService.findGoodsById(id);
     }
 
     @PostMapping("/update")
-    public Result update(@RequestBody TbGoods goods) {
+    public Result update(@RequestBody Goods goods) {
         try {
             goodsService.update(goods);
             return Result.ok("修改成功");
@@ -61,7 +62,7 @@ public class GoodsController {
     @GetMapping("/delete")
     public Result delete(String[] ids) {
         try {
-            goodsService.deleteByIds(ids);
+            goodsService.deleteGoodsByIds(ids);
             return Result.ok("删除成功");
         } catch (Exception e) {
             e.printStackTrace();
@@ -79,7 +80,20 @@ public class GoodsController {
     @PostMapping("/search")
     public PageResult search(@RequestBody  TbGoods goods, @RequestParam(value = "page", defaultValue = "1")Integer page,
                                @RequestParam(value = "rows", defaultValue = "10")Integer rows) {
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        goods.setSellerId(name);
         return goodsService.search(page, rows, goods);
+    }
+
+    @GetMapping("/updateStatus")
+    public Result updateStatus(Long[] ids ,String status){
+        try {
+            goodsService.updateStatus(ids,status);
+            return Result.ok("提交审核成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.fail("提交审核失败！");
     }
 
 

@@ -274,6 +274,26 @@ pinyougou.controller("goodsController", function ($scope, $controller, $location
             });
         }
     };
+
+    //商品上下架
+    $scope.updateis_marketable = function (status) {
+        if($scope.selectIds.length < 1) {
+            alert("请先选择商品");
+            return;
+        }
+        if(confirm("确定要更新选中的商品状态吗？")){
+            goodsService.updateis_marketable($scope.selectIds, status).success(function (response) {
+                if(response.success) {
+                    //刷新列表并清空选中的那些商品
+                    alert(response.message);
+                    $scope.reloadList();
+                    $scope.selectIds = [];
+                } else {
+                    alert(response.message);
+                }
+            });
+        }
+    };
     
     $scope.newgoods = function () {
         window.location.href = "./goods_edit.html";

@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
+
 @Transactional
 @Service(interfaceClass = SellerService.class)
 public class SellerServiceImpl extends BaseServiceImpl<TbSeller> implements SellerService {

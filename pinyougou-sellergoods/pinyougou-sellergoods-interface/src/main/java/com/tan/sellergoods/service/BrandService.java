@@ -1,11 +1,11 @@
 package com.tan.sellergoods.service;
 
-        import com.tan.pojo.TbBrand;
-        import com.tan.vo.BaseService;
-        import com.tan.vo.PageResult;
+import com.tan.pojo.TbBrand;
+import com.tan.vo.BaseService;
+import com.tan.vo.PageResult;
 
-        import java.util.List;
-        import java.util.Map;
+import java.util.List;
+import java.util.Map;
 
 public interface BrandService extends BaseService<TbBrand> {
 

@@ -64,7 +64,6 @@ public class GoodsServiceImpl extends BaseServiceImpl<TbGoods> implements GoodsS
     }
 
 
-
     @Override
     public void add(Goods goods) {
         goodsMapper.insertSelective(goods.getGoods());
@@ -72,6 +71,12 @@ public class GoodsServiceImpl extends BaseServiceImpl<TbGoods> implements GoodsS
         goodsDescMapper.insertSelective(goods.getGoodsDesc());
     }
 
+
+
+    /**
+     *重写父类add方法，再增加(SPU)商品规格表的同时增加(SPU)商品描述表、最后再增加(SKU)商品表
+     * @param goods
+     */
     @Override
     public void addGoods(Goods goods) {
         goodsMapper.insertSelective(goods.getGoods());
@@ -128,8 +133,21 @@ public class GoodsServiceImpl extends BaseServiceImpl<TbGoods> implements GoodsS
         goods.setItemList(tbItems);
 
         return goods;
+
+
+       /* Example example1 = new Example(TbContent.class);
+        Example.Criteria criteria = example1.createCriteria();
+        criteria.andEqualTo("status","1");
+        criteria.andEqualTo("categoryId","1");
+        example1.orderBy("sortOrder").desc();*/
+
+
     }
 
+    /**
+     *
+     * @param goods
+     */
     @Override
     public void update(Goods goods) {
 
@@ -148,6 +166,11 @@ public class GoodsServiceImpl extends BaseServiceImpl<TbGoods> implements GoodsS
         saveItem(goods);
     }
 
+
+    /**
+     *逻辑删除商品，只改状态
+     * @param ids
+     */
     @Override
     public void deleteGoodsByIds(String[] ids) {
         TbGoods tbGoods = new TbGoods();
@@ -157,9 +180,60 @@ public class GoodsServiceImpl extends BaseServiceImpl<TbGoods> implements GoodsS
         example.createCriteria().andIn("id",Arrays.asList(ids));
         goodsMapper.updateByExampleSelective(tbGoods,example);
 
+    }
+
+    /**
+     * 上架、下架 (暂无搞定)
+     * @param ids
+     * @param status
+     */
+    @Override
+    public void updateis_markeTable(Long[] ids, String status)  {
+
+        List<TbGoods> tbGoods1 = goodsMapper.selectByExample(ids);
+
+        Map<String,String> map = new HashMap<>();
+
+        for (int i = 0; i < tbGoods1.size(); i++){
+            if("2".equals(tbGoods1.get(i).getIsMarketable())){
+                map.put("status",tbGoods1.get(i).getAuditStatus());
+            }else{
+                map.put("status",tbGoods1.get(i).getAuditStatus());
+                break;
+            }
+        }
+        for (String s : map.values()) {
+            if("2".equals(s)){
+                    TbItem tbItem = new TbItem();
+                    TbGoods tbGoods = new TbGoods();
+                    Example example = new Example(TbGoods.class);
+                    example.createCriteria().andIn("id",Arrays.asList(ids));
+                    if("2".equals(status)){
+                        tbGoods.setIsMarketable("2");
+                        tbItem.setStatus("2");
+                    }
+                    if("1".equals(status)){
+                        tbGoods.setIsMarketable("1");
+                        tbItem.setStatus("1");
+                    }
+                    Example example2 = new Example(TbItem.class);
+                    example.createCriteria().andIn("goodsId",Arrays.asList(ids));
+                    goodsMapper.updateByExampleSelective(tbGoods,example);
+
+                    itemMapper.updateByExampleSelective(tbItem,example2);
+            }else{
+
+            }
+        }
+
+
 
     }
 
+    /**
+     * 增加(SKU)商品表，如果点击了选定规格时才添加，否则只添加一条默认数据
+     * @param goods
+     */
     private void  saveItem(Goods goods){
         if("1".equals(goods.getGoods().getIsEnableSpec())){
             for (TbItem tbItem : goods.getItemList()) {
@@ -196,7 +270,11 @@ public class GoodsServiceImpl extends BaseServiceImpl<TbGoods> implements GoodsS
 
     }
 
-
+    /**
+     * 处理新增时前端传过来的值
+     * @param tbItem
+     * @param goods
+     */
     private void  setItemValue(TbItem tbItem,Goods goods){
 
         List<Map>  arr = JSONArray.parseArray(goods.getGoodsDesc().getItemImages(),Map.class);
@@ -211,6 +289,9 @@ public class GoodsServiceImpl extends BaseServiceImpl<TbGoods> implements GoodsS
 
 
         tbItem.setCategory(tbItemCat.getName());
+
+
+        tbItem.setGoodsId(goods.getGoods().getId());
 
         tbItem.setCreateTime(new Date());
 

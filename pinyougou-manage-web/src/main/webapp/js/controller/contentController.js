@@ -40,15 +40,15 @@ pinyougou.controller("contentController", function ($scope, $controller, content
     };
 
     $scope.delete = function () {
-        if($scope.selectedIds.length < 1){
+        if($scope.selectIds.length < 1){
             alert("请先选择要删除的记录");
             return;
         }
         if(confirm("确定要删除已选择的记录吗")){
-            contentService.delete($scope.selectedIds).success(function (response) {
+            contentService.delete($scope.selectIds).success(function (response) {
                 if(response.success){
                     $scope.reloadList();
-                    $scope.selectedIds = [];
+                    $scope.selectIds = [];
                 } else {
                     alert(response.message);
                 }

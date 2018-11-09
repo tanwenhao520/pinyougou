@@ -75,7 +75,7 @@ public class BrandController {
     @GetMapping("/delete")
     public Result delete(Long[] ids){
         try {
-            brandService.deleteById(ids);
+            brandService.deleteByIds(ids);
             return Result.ok("删除成功！");
         } catch (Exception e) {
             e.printStackTrace();
@@ -90,6 +90,10 @@ public class BrandController {
        return brandService.search(page,rows,tbBrand);
     }
 
+    /**
+     * 页面加载时，查询品牌数据 并按[{id:"1",text:"华为"}]的方式返回
+     * @return
+     */
     @GetMapping("/selectOptionList")
     public List<Map<String,Object>> selectOptionList(){
 

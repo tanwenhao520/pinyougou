@@ -21,4 +21,9 @@
     <dubbo:application name="pingyougou-manage-web" />
     <dubbo:registry address="zookeeper://192.168.12.168:2181"/>
     <dubbo:annotation package="com.tan.controller" />
+
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="5242880"></property>
+        <property name="defaultEncoding" value="UTF-8"></property>
+    </bean>
 </beans>

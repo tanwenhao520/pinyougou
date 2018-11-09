@@ -56,6 +56,10 @@ public class BrandServiceImpl extends BaseServiceImpl<TbBrand> implements BrandS
         return new PageResult(tbBrandPageInfo.getTotal(),tbBrandPageInfo.getList());
     }
 
+    /**
+     * 查询所有品牌(由于分页助手无法修改字段名，所以调用的是Mapper映射文件的实现方法)
+     * @return
+     */
     @Override
     public List<Map<String, Object>> selectOptionList() {
         return brandMapper.selectOptionList();

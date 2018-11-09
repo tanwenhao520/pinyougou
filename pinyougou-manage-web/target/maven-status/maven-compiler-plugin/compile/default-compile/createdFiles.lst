@@ -1,8 +1,11 @@
-com\tan\controller\BrandController.class
-com\tan\controller\SpecificationOptionController.class
+com\tan\controller\UploadController.class
+com\tan\controller\ContentCategoryController.class
 com\tan\controller\ItemCatController.class
 com\tan\controller\LoginController.class
 com\tan\controller\SellerController.class
 com\tan\controller\GoodsController.class
 com\tan\controller\SpecificationController.class
 com\tan\controller\TypeTemplateController.class
+com\tan\controller\BrandController.class
+com\tan\controller\SpecificationOptionController.class
+com\tan\controller\ContentController.class

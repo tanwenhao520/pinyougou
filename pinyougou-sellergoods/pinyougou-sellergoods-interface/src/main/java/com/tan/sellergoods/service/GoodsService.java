@@ -22,4 +22,6 @@ public interface GoodsService extends BaseService<TbGoods> {
 
 
     void deleteGoodsByIds(String[] ids);
+
+    void updateis_markeTable(Long[] ids, String status);
 }

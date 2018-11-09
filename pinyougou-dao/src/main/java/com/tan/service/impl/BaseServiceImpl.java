@@ -10,7 +10,7 @@ import tk.mybatis.mapper.common.Mapper;
 import java.io.Serializable;
 import java.util.List;
 
-public  abstract class BaseServiceImpl<T> implements BaseService<T> {
+public   class BaseServiceImpl<T> implements BaseService<T> {
 
         @Autowired
         private Mapper<T> mapper;
@@ -44,28 +44,24 @@ public  abstract class BaseServiceImpl<T> implements BaseService<T> {
             List<T> list = mapper.select(t);
         PageInfo<T>  list2 = new PageInfo<>(list);
         return new PageResult(list2.getTotal(),list2.getList());
-    }
+         }
+
+        @Override
+        public void add(T t) {
+            mapper.insertSelective(t);
+        }
+
+        @Override
+        public void update(T t) {
+            mapper.updateByPrimaryKeySelective(t);
+        }
 
     @Override
-    public void add(T t) {
-        mapper.insertSelective(t);
-    }
-
-    @Override
-    public void update(T t) {
-        mapper.updateByPrimaryKeySelective(t);
-    }
-
-    /**
-     * 批量删除
-     * @param ids
-     */
-    @Override
-    public void deleteById(Serializable[] ids) {
-        if(ids != null && ids.length >0){
-            for (Serializable id : ids) {
-                mapper.deleteByPrimaryKey(id);
-            }
+    public void deleteByIds(Serializable[] ids) {
+        for (Serializable id : ids) {
+            mapper.deleteByPrimaryKey(id);
         }
     }
+
+
 }

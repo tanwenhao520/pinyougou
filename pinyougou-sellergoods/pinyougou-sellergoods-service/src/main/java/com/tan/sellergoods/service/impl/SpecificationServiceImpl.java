@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 @Transactional
 @Service(interfaceClass = SpecificationService.class)
-public class SpecificationServiceImpl extends BaseServiceImpl<TbSpecification> implements SpecificationService {
+public class SpecificationServiceImpl extends BaseServiceImpl<TbSpecification> implements SpecificationService{
 
     @Autowired
     private SpecificationMapper specificationMapper;
@@ -59,16 +59,29 @@ public class SpecificationServiceImpl extends BaseServiceImpl<TbSpecification> i
 
     }
 
+    /**
+     * 重写deleteByIds方法，并调用父类的删除方法进行删除,在删除规格选项
+     * @param ids
+     */
     @Override
     public void deleteByIds(Long[] ids) {
-        deleteById(ids);
+        if(ids.length > 0){
 
-        Example example = new Example(TbSpecificationOption.class);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andIn("specId", Arrays.asList(ids));
-        specificationOptionMapper.deleteByExample(example);
+            super.deleteByIds(ids);
+
+            Example example = new Example(TbSpecificationOption.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andIn("specId", Arrays.asList(ids));
+            specificationOptionMapper.deleteByExample(example);
+        }
+
     }
 
+    /**
+     * 查询规格和规格选项表并回显给页面
+     * @param id
+     * @return
+     */
     @Override
     public Specification findOne(Long id) {
 
@@ -86,6 +99,10 @@ public class SpecificationServiceImpl extends BaseServiceImpl<TbSpecification> i
         return specification;
     }
 
+    /**
+     * 修改规格表，以及不确定管理员删除了哪个规格选项和新增了哪个规格选项，所以首先删除指定id的规格选项再新增
+     * @param specification
+     */
     @Override
     public void update(Specification specification) {
         specificationMapper.updateByPrimaryKeySelective(specification.getSpecification());
@@ -102,8 +119,14 @@ public class SpecificationServiceImpl extends BaseServiceImpl<TbSpecification> i
         }
     }
 
+    /**
+     * 查询所有品牌(由于分页助手无法修改字段名，所以调用的是Mapper映射文件的实现方法)
+     * @return
+     */
     @Override
     public List<Map<String, Object>> selectOptionList() {
         return specificationMapper.selectOptionList();
     }
+
+
 }

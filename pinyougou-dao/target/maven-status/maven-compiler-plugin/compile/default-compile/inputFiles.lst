@@ -1,10 +1,12 @@
 G:\pinyougou\pinyougou\pingyougou\pinyougou-dao\src\main\java\com\tan\dao\SpecificationMapper.java
 G:\pinyougou\pinyougou\pingyougou\pinyougou-dao\src\main\java\com\tan\dao\GoodsDescMapper.java
 G:\pinyougou\pinyougou\pingyougou\pinyougou-dao\src\main\java\com\tan\dao\GoodsMapper.java
+G:\pinyougou\pinyougou\pingyougou\pinyougou-dao\src\main\java\com\tan\dao\ContentMapper.java
 G:\pinyougou\pinyougou\pingyougou\pinyougou-dao\src\main\java\com\tan\dao\BrandMapper.java
 G:\pinyougou\pinyougou\pingyougou\pinyougou-dao\src\main\java\com\tan\dao\ItemCatMapper.java
 G:\pinyougou\pinyougou\pingyougou\pinyougou-dao\src\main\java\com\tan\dao\SpecificationOptionMapper.java
 G:\pinyougou\pinyougou\pingyougou\pinyougou-dao\src\main\java\com\tan\dao\TypeTemplateMapper.java
 G:\pinyougou\pinyougou\pingyougou\pinyougou-dao\src\main\java\com\tan\service\impl\BaseServiceImpl.java
+G:\pinyougou\pinyougou\pingyougou\pinyougou-dao\src\main\java\com\tan\dao\ContentCategoryMapper.java
 G:\pinyougou\pinyougou\pingyougou\pinyougou-dao\src\main\java\com\tan\dao\ItemMapper.java
 G:\pinyougou\pinyougou\pingyougou\pinyougou-dao\src\main\java\com\tan\dao\SellerMapper.java

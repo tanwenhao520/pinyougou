@@ -10,7 +10,11 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/upload")
 @RestController
 public class UploadController {
-
+    /**
+     * 文件上传通用
+     * @param file
+     * @return
+     */
     @PostMapping
     public Result upload(MultipartFile file) {
         String originalFilename = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")+1);

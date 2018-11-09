@@ -41,11 +41,21 @@ public class SpecificationController {
         return Result.fail("增加失败");
     }
 
+    /**
+     * 查询规格表和规格选项表进行回显，让管理员操作
+     * @param id
+     * @return
+     */
     @GetMapping("/findOne")
     public Specification findOne(Long id) {
         return specificationService.findOne(id);
     }
 
+    /**
+     * 管理员修改回显数据时，并点击保存按钮时，进行修改
+     * @param specification
+     * @return
+     */
     @PostMapping("/update")
     public Result update(@RequestBody Specification specification) {
         try {
@@ -57,6 +67,11 @@ public class SpecificationController {
         return Result.fail("修改失败");
     }
 
+    /**
+     *管理员进行删除时，进行删除方法
+     * @param ids
+     * @return
+     */
     @GetMapping("/delete")
     public Result delete(Long[] ids) {
         try {
@@ -81,9 +96,12 @@ public class SpecificationController {
         return specificationService.search(page, rows, specification);
     }
 
+    /**
+     * 页面加载时加载下拉的属性(即查询所有品牌)
+     * @return
+     */
     @GetMapping("/selectOptionList")
     public List<Map<String,Object>> selectOptionList(){
-
         return specificationService.selectOptionList();
     }
 

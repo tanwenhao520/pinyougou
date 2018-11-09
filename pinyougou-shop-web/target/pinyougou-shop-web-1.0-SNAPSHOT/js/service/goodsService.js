@@ -33,4 +33,8 @@ pinyougou.service("goodsService",function ($http) {
     this.updateStatus = function (selectedIds, status) {
         return $http.get("../goods/updateStatus.do?ids=" + selectedIds + "&status=" + status);
     };
+
+    this.updateis_marketable = function (selectedIds,status) {
+        return $http.get("../goods/updateis_marketable?ids="+selectedIds +"&status="+status);
+    }
 });

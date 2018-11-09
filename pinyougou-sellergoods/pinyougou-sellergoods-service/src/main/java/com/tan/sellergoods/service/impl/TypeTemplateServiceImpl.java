@@ -18,9 +18,10 @@ import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 import java.util.Map;
+
 @Transactional
 @Service(interfaceClass = TypeTemplateService.class)
-public class TypeTemplateServiceImpl extends BaseServiceImpl<TbTypeTemplate> implements TypeTemplateService {
+public  class TypeTemplateServiceImpl extends BaseServiceImpl<TbTypeTemplate> implements TypeTemplateService {
 
     @Autowired
     private TypeTemplateMapper typeTemplateMapper;
@@ -28,6 +29,13 @@ public class TypeTemplateServiceImpl extends BaseServiceImpl<TbTypeTemplate> imp
     @Autowired
     private SpecificationOptionMapper specificationOptionMapper;
 
+    /**
+     * 查询模板并分页带条件，
+     * @param page 当前页数
+     * @param rows 页大小
+     * @param typeTemplate 查询条件
+     * @return 结果集(总页数、数据列表)
+     */
     @Override
     public PageResult search(Integer page, Integer rows, TbTypeTemplate typeTemplate) {
         PageHelper.startPage(page, rows);
@@ -46,7 +54,7 @@ public class TypeTemplateServiceImpl extends BaseServiceImpl<TbTypeTemplate> imp
 
     @Override
     public void deleteByIds(Long[] ids) {
-        super.deleteById(ids);
+            super.deleteByIds(ids);
     }
 
     @Override
@@ -61,5 +69,6 @@ public class TypeTemplateServiceImpl extends BaseServiceImpl<TbTypeTemplate> imp
         }
         return map;
     }
+
 
 }

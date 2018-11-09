@@ -17,7 +17,6 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 
     private SellerService sellerService;
 
-
     public void setSellerService(SellerService sellerService) {
         this.sellerService = sellerService;
     }

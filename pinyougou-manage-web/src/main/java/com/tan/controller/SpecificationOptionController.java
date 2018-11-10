@@ -9,13 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.tan.pojo.TbSpecificationOption;
-import com.tan.sellergoods.service.SpecificationOptionService;
-import com.tan.vo.PageResult;
-import com.tan.vo.Result;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequestMapping("/specificationOption")
 @RestController

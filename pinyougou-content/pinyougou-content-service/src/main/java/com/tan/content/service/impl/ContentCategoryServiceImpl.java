@@ -22,6 +22,16 @@ public class ContentCategoryServiceImpl extends BaseServiceImpl<TbContentCategor
 
     @Override
     public PageResult search(Integer page, Integer rows, TbContentCategory contentCategory) {
+
+        /**
+         * 课堂测试
+         */
+       /* Example example1 = new Example(TbItem.class);
+        example1.createCriteria().andIn("goodsId", Arrays.asList(ids)).andEqualTo("status","1");
+
+        itemMapper.selectByExample(example);*/
+
+
         PageHelper.startPage(page, rows);
 
         Example example = new Example(TbContentCategory.class);

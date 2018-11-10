@@ -28,10 +28,10 @@ public class GoodsServiceImpl extends BaseServiceImpl<TbGoods> implements GoodsS
     private GoodsDescMapper goodsDescMapper;
 
     @Autowired
-    private  ItemCatMapper itemCatMapper;
+    private ItemCatMapper itemCatMapper;
 
     @Autowired
-    private SellerMapper  sellerMapper;
+    private SellerMapper sellerMapper;
 
     @Autowired
     private BrandMapper brandMapper;

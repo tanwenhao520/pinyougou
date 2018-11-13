@@ -80,7 +80,7 @@ public class GoodsController {
     }
 
     @GetMapping("/delete")
-    public Result delete(String[] ids) {
+    public Result delete(Long[] ids) {
         try {
             goodsService.deleteGoodsByIds(ids);
             return Result.ok("删除成功");
@@ -138,6 +138,8 @@ public class GoodsController {
         }
         return Result.fail("商品上架失败!");
     }
+
+
 
 
 }

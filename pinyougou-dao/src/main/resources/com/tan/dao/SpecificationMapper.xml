@@ -7,6 +7,7 @@
     <select id="findAll" resultType="TbSpecification">
         select * from tb_specification
     </select>
+
     <select id="selectOptionList" resultType="map">
         SELECT id,spec_name as text FROM tb_specification
     </select>

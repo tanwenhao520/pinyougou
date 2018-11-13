@@ -2,6 +2,8 @@ package com.tan.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.tan.pojo.TbGoods;
+import com.tan.pojo.TbItem;
+import com.tan.search.service.ItemSearchService;
 import com.tan.sellergoods.service.GoodsService;
 import com.tan.vo.Goods;
 import com.tan.vo.PageResult;
@@ -9,7 +11,10 @@ import com.tan.vo.Result;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/goods")
 @RestController
@@ -17,6 +22,9 @@ public class GoodsController {
 
     @Reference
     private GoodsService goodsService;
+
+    @Reference
+    private ItemSearchService itemSearchService;
 
     @RequestMapping("/findAll")
     public List<TbGoods> findAll() {
@@ -65,9 +73,10 @@ public class GoodsController {
      * @return
      */
     @GetMapping("/delete")
-    public Result delete(String[] ids) {
+    public Result delete(Long[] ids) {
         try {
             goodsService.deleteGoodsByIds(ids);
+            itemSearchService.deleteItemByGoodsIdList(Arrays.asList(ids));
             return Result.ok("删除成功");
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,9 +100,13 @@ public class GoodsController {
 
     @GetMapping("/updateStatus")
     public Result updateStatus(Long[] ids ,String status){
-
         try {
             goodsService.updateStatus(ids,status);
+
+            if("2".equals(status)){
+                List<TbItem> itemList = goodsService.findItemListByGoodsIdsAndStatus(ids, status);
+                itemSearchService.ImportItemList(itemList);
+            }
             return Result.ok("审核通过！");
         } catch (Exception e) {
             e.printStackTrace();
@@ -101,5 +114,11 @@ public class GoodsController {
         return Result.fail("审核失败！");
     }
 
+    /*   @GetMapping(value = {"goodsid"})
+    *//*@RequestMapping(value = {"id"},method = RequestMethod.GET)*//*
+    public String findGoodsAndItemCat(@PathVariable Integer goodsid){
+       Map<String,Object>  map1= itemService.seleteGoodsAndItemCat(goodsid);
+      return  goodsid.toString();
+    }*/
 
 }

@@ -119,17 +119,18 @@ public class GoodsServiceImpl extends BaseServiceImpl<TbGoods> implements GoodsS
         Goods goods = new Goods();
 
         TbGoods tbGoods = goodsMapper.selectByPrimaryKey(id);
+        System.out.println(tbGoods);
 
         goods.setGoods(tbGoods);
 
         TbGoodsDesc tbGoodsDesc = goodsDescMapper.selectByPrimaryKey(goods.getGoods().getId());
 
         goods.setGoodsDesc(tbGoodsDesc);
-
+        System.out.println(tbGoodsDesc);
         Example example = new Example(TbItem.class);
         example.createCriteria().andEqualTo("goodsId",goods.getGoodsDesc().getGoodsId());
         List<TbItem> tbItems = itemMapper.selectByExample(example);
-
+        System.out.println(tbItems);
         goods.setItemList(tbItems);
 
         return goods;
@@ -172,7 +173,7 @@ public class GoodsServiceImpl extends BaseServiceImpl<TbGoods> implements GoodsS
      * @param ids
      */
     @Override
-    public void deleteGoodsByIds(String[] ids) {
+    public void deleteGoodsByIds(Long[] ids) {
         TbGoods tbGoods = new TbGoods();
         tbGoods.setIsDelete("1");
 
@@ -228,6 +229,39 @@ public class GoodsServiceImpl extends BaseServiceImpl<TbGoods> implements GoodsS
 
 
 
+    }
+
+    /**
+     * 按spu商品ids 和 状态为 2(以审核)的商品查询 sku商品，用于给Solr新增索引
+     * @param ids
+     * @param status
+     */
+    @Override
+    public List<TbItem> findItemListByGoodsIdsAndStatus(Long[] ids, String status) {
+        Example example = new Example(TbItem.class);
+        example.createCriteria().andIn("goodsid",Arrays.asList(ids)).andEqualTo("status",status);
+        return  itemMapper.selectByExample(example);
+    }
+
+    @Override
+    public Goods findGoodsByIdAndStatus(Long goodsId, String status) {
+
+            Goods goods = new Goods();
+
+            TbGoods tbGoods = goodsMapper.selectByPrimaryKey(goodsId);
+            goods.setGoods(tbGoods);
+
+            TbGoodsDesc tbGoodsDesc = goodsDescMapper.selectByPrimaryKey(goodsId);
+            goods.setGoodsDesc(tbGoodsDesc);
+
+            Example example = new Example(TbItem.class);
+            example.createCriteria().andEqualTo("goodsId",goodsId).andEqualTo("status",status);
+            example.orderBy("isDefault").desc();
+            List<TbItem> tbItems = itemMapper.selectByExample(example);
+            goods.setItemList(tbItems);
+
+
+        return goods;
     }
 
     /**

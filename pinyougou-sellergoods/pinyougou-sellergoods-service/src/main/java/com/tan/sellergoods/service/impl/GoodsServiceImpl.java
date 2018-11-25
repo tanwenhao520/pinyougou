@@ -191,43 +191,22 @@ public class GoodsServiceImpl extends BaseServiceImpl<TbGoods> implements GoodsS
     @Override
     public void updateis_markeTable(Long[] ids, String status)  {
 
-        List<TbGoods> tbGoods1 = goodsMapper.selectByExample(ids);
-
-        Map<String,String> map = new HashMap<>();
-
-        for (int i = 0; i < tbGoods1.size(); i++){
-            if("2".equals(tbGoods1.get(i).getIsMarketable())){
-                map.put("status",tbGoods1.get(i).getAuditStatus());
-            }else{
-                map.put("status",tbGoods1.get(i).getAuditStatus());
-                break;
+            TbItem tbItem = new TbItem();
+            TbGoods tbGoods = new TbGoods();
+            Example example = new Example(TbGoods.class);
+            example.createCriteria().andIn("id",Arrays.asList(ids));
+            if("2".equals(status)){
+                tbGoods.setIsMarketable("1");
+                tbItem.setStatus("1");
             }
-        }
-        for (String s : map.values()) {
-            if("2".equals(s)){
-                    TbItem tbItem = new TbItem();
-                    TbGoods tbGoods = new TbGoods();
-                    Example example = new Example(TbGoods.class);
-                    example.createCriteria().andIn("id",Arrays.asList(ids));
-                    if("2".equals(status)){
-                        tbGoods.setIsMarketable("2");
-                        tbItem.setStatus("2");
-                    }
-                    if("1".equals(status)){
-                        tbGoods.setIsMarketable("1");
-                        tbItem.setStatus("1");
-                    }
-                    Example example2 = new Example(TbItem.class);
-                    example.createCriteria().andIn("goodsId",Arrays.asList(ids));
-                    goodsMapper.updateByExampleSelective(tbGoods,example);
-
-                    itemMapper.updateByExampleSelective(tbItem,example2);
-            }else{
-
+            if("1".equals(status)){
+                tbGoods.setIsMarketable("0");
+                tbItem.setStatus("2");
             }
-        }
-
-
+            Example example2 = new Example(TbItem.class);
+            example.createCriteria().andIn("goodsId",Arrays.asList(ids));
+            goodsMapper.updateByExampleSelective(tbGoods,example);
+            itemMapper.updateByExampleSelective(tbItem,example2);
 
     }
 
@@ -239,7 +218,7 @@ public class GoodsServiceImpl extends BaseServiceImpl<TbGoods> implements GoodsS
     @Override
     public List<TbItem> findItemListByGoodsIdsAndStatus(Long[] ids, String status) {
         Example example = new Example(TbItem.class);
-        example.createCriteria().andIn("goodsid",Arrays.asList(ids)).andEqualTo("status",status);
+        example.createCriteria().andIn("goodsId",Arrays.asList(ids)).andEqualTo("status",status);
         return  itemMapper.selectByExample(example);
     }
 

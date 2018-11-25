@@ -17,4 +17,8 @@
         <module>pinyougou-sellergoods-interface</module>
         <module>pinyougou-sellergoods-service</module>
     </modules>
+
+    <dependencies>
+
+    </dependencies>
 </project>

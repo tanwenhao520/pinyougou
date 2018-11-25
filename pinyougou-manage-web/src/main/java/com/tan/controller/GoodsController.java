@@ -1,6 +1,7 @@
 package com.tan.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.fastjson.JSON;
 import com.tan.pojo.TbGoods;
 import com.tan.pojo.TbItem;
 import com.tan.search.service.ItemSearchService;
@@ -8,13 +9,17 @@ import com.tan.sellergoods.service.GoodsService;
 import com.tan.vo.Goods;
 import com.tan.vo.PageResult;
 import com.tan.vo.Result;
+import org.apache.activemq.command.ActiveMQQueue;
+import org.apache.activemq.command.ActiveMQTextMessage;
+import org.apache.activemq.command.ActiveMQTopic;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.HashMap;
+import javax.jms.*;
 import java.util.List;
-import java.util.Map;
 
 @RequestMapping("/goods")
 @RestController
@@ -25,6 +30,18 @@ public class GoodsController {
 
     @Reference
     private ItemSearchService itemSearchService;
+
+    @Autowired
+    private JmsTemplate jmsTemplate;
+
+    @Autowired
+    private ActiveMQQueue itemSolrQueue;
+
+    @Autowired ActiveMQQueue itemSolrDeleteQueue;
+
+    @Autowired
+    private ActiveMQTopic itemTopic;
+
 
     @RequestMapping("/findAll")
     public List<TbGoods> findAll() {
@@ -76,12 +93,21 @@ public class GoodsController {
     public Result delete(Long[] ids) {
         try {
             goodsService.deleteGoodsByIds(ids);
-            itemSearchService.deleteItemByGoodsIdList(Arrays.asList(ids));
+            sendMQsg(itemSolrDeleteQueue,ids);
             return Result.ok("删除成功");
         } catch (Exception e) {
             e.printStackTrace();
         }
         return Result.fail("删除失败");
+    }
+
+    private void sendMQsg(Destination destination, Long[] ids) {
+        jmsTemplate.send(itemSolrDeleteQueue, new MessageCreator() {
+            @Override
+            public Message createMessage(Session session) throws JMSException {
+                return session.createObjectMessage(ids);
+            }
+        });
     }
 
     /**
@@ -103,16 +129,29 @@ public class GoodsController {
         try {
             goodsService.updateStatus(ids,status);
 
-            if("2".equals(status)){
+            if("1".equals(status)){
                 List<TbItem> itemList = goodsService.findItemListByGoodsIdsAndStatus(ids, status);
-                itemSearchService.ImportItemList(itemList);
+                System.out.println(itemList);
+                jmsTemplate.send(itemSolrQueue, new MessageCreator() {
+                    @Override
+                    public Message createMessage(Session session) throws JMSException {
+                        TextMessage textMessage = new ActiveMQTextMessage();
+                        textMessage.setText(JSON.toJSONString(itemList));
+                        return textMessage;
+                    }
+                });
+               // itemSearchService.ImportItemList(itemList);
+
+               //sendMQsg(itemTopic,ids);
+
             }
-            return Result.ok("审核通过！");
+            return Result.ok("修改状态成功！");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return Result.fail("审核失败！");
+        return Result.fail("修改状态失败！");
     }
+
 
     /*   @GetMapping(value = {"goodsid"})
     *//*@RequestMapping(value = {"id"},method = RequestMethod.GET)*//*

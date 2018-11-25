@@ -132,7 +132,7 @@ public class GoodsController {
     public Result updateis_markeTable(Long[] ids,String status){
         try {
             goodsService.updateis_markeTable(ids,status);
-            return Result.ok("商品上架成功！");
+            return Result.ok("商品上架成功!");
         } catch (Exception e) {
             e.printStackTrace();
         }

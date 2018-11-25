@@ -10,6 +10,7 @@ com\tan\pojo\TbOrderItem.class
 com\tan\pojo\TbOrder.class
 com\tan\pojo\TbBrand.class
 com\tan\vo\Specification.class
+com\tan\vo\Cart.class
 com\tan\pojo\TbSeckillGoods.class
 com\tan\pojo\TbContentCategory.class
 com\tan\pojo\TbTypeTemplate.class

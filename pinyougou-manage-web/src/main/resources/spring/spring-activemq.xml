@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--真正可以生产Connection的ConnectionFactory，由对应的JMS服务厂商提供-->
+    <bean id="targetConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="tcp://192.168.12.168:61616"></property>
+    </bean>
+    <!--Spring用于管理真正的ConnectionFactory的ConnectionFactory-->
+    <bean id="connectionFactory" class="org.springframework.jms.connection.SingleConnectionFactory">
+        <!--目标ConnectionFactory对应真实可以产生JMS Connection的ConnectionFactory-->
+        <property name="targetConnectionFactory" ref="targetConnectionFactory"></property>
+    </bean>
+    <!--Spring提供的JMS工具类，它可以进行消息发送，接收等-->
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <!--  这个 connectionFactory 对应的是我们定义的 Spring 提供的那个ConnectionFactory 对象  -->
+        <property name="connectionFactory" ref="connectionFactory"></property>
+    </bean>
+    <!--队列模式，在商品审核后接收的商品表队列模式-->
+    <bean id="itemSolrQueue" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg value="pinyougou_item_solr_queue"></constructor-arg>
+    </bean>
+
+    <bean id="itemSolrDeleteQueue" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg value="pinyougou_item_solr_delete_queue"/>
+    </bean>
+
+    <bean id="itemTopic" class="org.apache.activemq.command.ActiveMQTopic">
+        <constructor-arg value="pinyougou_item_topic"></constructor-arg>
+    </bean>
+
+
+</beans>

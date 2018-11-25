@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="targetConnection" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="tcp://192.168.12.168:61616"></property>
+    </bean>
+
+    <bean id="connectionFactory" class="org.springframework.jms.connection.SingleConnectionFactory">
+        <property name="targetConnectionFactory" ref="targetConnection"></property>
+        <property name="clientId" value="pinyougou-item-web-1"></property>
+    </bean>
+
+
+    <bean id="itemTopic" class="org.apache.activemq.command.ActiveMQTopic">
+        <constructor-arg value="pinyougou_item_topic"></constructor-arg>
+    </bean>
+
+    <bean id="itemAuditMessageListener" class="com.tan.listener.ItemAuditMessageListener"></bean>
+
+    <bean  class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="connectionFactory"></property>
+        <property name="destination" ref="itemTopic"></property>
+        <property name="messageListener" ref="itemAuditMessageListener"></property>
+        <property name="subscriptionDurable" value="true"></property>
+        <property name="clientId" value="pinyougou-item-web-1"></property>
+        <property name="durableSubscriptionName" value="pinyougou-item-web-1"></property>
+        <property name="pubSubDomain" value="true"></property>
+        <property name="sessionTransacted" value="false"></property>
+        <property name="sessionAcknowledgeModeName" value="CLIENT_ACKNOWLEDGE"></property>
+     </bean>
+
+    <bean id="itemDeleteTopic" class="org.apache.activemq.command.ActiveMQTopic">
+        <constructor-arg value="pinyougou_item_delete_topic"/>
+    </bean>
+
+    <bean id="itemDeleteListener" class="com.tan.listener.ItemDeleteListener"></bean>
+
+    <bean  class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="connectionFactory"></property>
+        <property name="destination" ref="itemDeleteTopic"></property>
+        <property name="messageListener" ref="itemDeleteListener"></property>
+        <property name="subscriptionDurable" value="true"></property>
+        <property name="clientId" value="pinyougou-item-web-2"></property>
+        <property name="durableSubscriptionName" value="pinyougou-item-web-2"></property>
+        <property name="pubSubDomain" value="true"></property>
+        <property name="sessionTransacted" value="false"></property>
+        <property name="sessionAcknowledgeModeName" value="CLIENT_ACKNOWLEDGE"></property>
+    </bean>
+
+</beans>

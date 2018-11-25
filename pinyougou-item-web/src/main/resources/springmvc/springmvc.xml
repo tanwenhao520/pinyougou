@@ -13,7 +13,6 @@
        http://code.alibabatech.com/schema/dubbo
        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
-    <context:property-placeholder location="classpath:properties/page.properties"></context:property-placeholder>
 
     <mvc:annotation-driven>
         <mvc:message-converters register-defaults="true">

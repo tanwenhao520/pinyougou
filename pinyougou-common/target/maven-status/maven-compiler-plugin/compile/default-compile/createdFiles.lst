@@ -1,1 +1,7 @@
 com\tan\common\FastDFSClient.class
+com\tan\common\IdWorker.class
+com\tan\common\RedisLock.class
+com\tan\common\HttpClient.class
+com\tan\common\HttpClient$1.class
+com\tan\common\CookieUtils.class
+com\tan\common\PhoneFormatCheckUtils.class

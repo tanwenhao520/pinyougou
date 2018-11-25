@@ -50,6 +50,7 @@ pinyougou.controller("baseController",function ($scope) {
         }else{
             var index = $scope.selectIds.indexOf(id);
             $scope.selectIds.splice(index,1);
+
         }
     }
 
